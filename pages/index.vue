@@ -2,6 +2,15 @@
 <template>
     <div>
         <component :is="MovieCard" :data="movieData" />
+
+        <form onsubmit="return false">
+            <input
+                type="search"
+                class="border-2 border-black"
+                v-model="model"
+                @keyup.enter="searchMovie(model)"
+            />
+        </form>
     </div>
 </template>
 
@@ -10,9 +19,14 @@
     import useCard from '../composables/useCard'
     import MovieCard from '../components/MovieCard/index.vue'
 
-    const { movie, isLoading, error } = useMovie('casino royale')
+    const model = defineModel()
+    const movieData = ref()
 
-    const movieData = computed(() => (movie.value ? useCard(movie.value) : {}))
+    function searchMovie(model: any) {
+        const { movie, isLoading, error } = useMovie(model)
 
-    console.log('movie', movie)
+        movieData.value = computed(() =>
+            movie.value ? useCard(movie.value) : {}
+        )
+    }
 </script>

@@ -23,7 +23,7 @@ export function useMovie(title: string) {
         }
     };
 
-    onMounted(fetchData);
+    fetchData()
 
     return { movie, isLoading, error };
 }
